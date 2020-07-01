@@ -1,17 +1,20 @@
 from bs4 import BeautifulSoup
 import requests
+import codecs
+import sys
 import jieba.analyse
 import time
 
-response = requests.get("https://www.sohu.com")
-bs = BeautifulSoup(response.text,"html.parser")
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
+response = requests.get("https://www.sohu.com")
+bs = BeautifulSoup(response.text,"html5lib")
 result = bs.find_all("a")
 
 for link in result:
     title = link.get("title")
     if title is not None:
-        file = open("value1.txt","a+")
+        file = codecs.open('vaule1.txt', 'a+', 'utf-8')
         file.write(title)
         file.close()
 
@@ -24,7 +27,7 @@ def read_from_file(directions):
         break
     return readfile
 
-file_data = str(read_from_file('value1.txt'))
+file_data = str(read_from_file('vaule1.txt'))
 textrank = jieba.analyse.textrank
 
 keywords_TR = textrank(file_data)
